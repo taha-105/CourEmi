@@ -1,0 +1,26 @@
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.btn-block{
+  color: white;
+  font-weight:bold;
+  width: 225px;
+  height: 43px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  margin-left: 20%;
+}
+.btn-block:hover{
+  box-shadow: 0px 10px 40px rgba(0,0,0,0.3);
+}
+.btn-signUP{
+  background-color: #312aff;
+}
+.btn-signIN{
+  background-color: #057216;
+}

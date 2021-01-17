@@ -1,0 +1,41 @@
+
+<div class="language">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="text-center" st><h5 class="signup" style="margin-top: 5%">Connectez-vous à votre compte COURSEMI !</h5></div>
+        <div ><hr ></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="logreg-forms"  >
+    <form class="form-signin" (ngSubmit)="onLogin(f)" #f="ngForm">
+      <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+      <div class="social-login">
+        <button class="btn facebook-btn social-btn" type="button"><span>Sign in with Facebook</span> </button>
+        <button class="btn google-btn social-btn" type="button"><span>Sign in with Google+</span> </button>
+      </div>
+      <p style="text-align:center"> OR  </p>
+      <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+        <input type="email" id="inputEmail" class="form-control" ngModel name="username" placeholder="Email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [ngClass]="{ 'is-valid': f.submitted && email.valid }" #email="ngModel">
+
+      </div>
+      <p class="invalid" *ngIf="email.invalid && f.submitted">invalid email </p>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+        <input type="password" id="inputPassword" class="form-control" ngModel name="password" placeholder="Password" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [ngClass]="{ 'is-valid': f.submitted && password.valid }" required style="margin-top: 5px" #password="ngModel">
+      </div>
+      <p class="invalid" *ngIf="password.invalid && f.submitted">invalid password </p>
+      <button class="btn btn-success btn-block btn-signIN" type="submit"><i class="fa fa-sign-in"></i> Se connecter</button>
+      <!--<a href="#" id="forgot_pswd">Forgot password?</a>-->
+      <hr>
+      <!-- <p>Don't have an account!</p>  -->
+      <a routerLink="/sign-up" class="text-center"><button class="btn btn-primary btn-block btn-signUP" type="button" id="btn-signup"><i class="fa fa-user-plus"></i> S'inscrire</button></a>
+    </form>
+    <br>
+
+  </div>
+</div>

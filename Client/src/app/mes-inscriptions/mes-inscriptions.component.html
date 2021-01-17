@@ -1,0 +1,64 @@
+
+<div class="container">
+  <div class="table-responsive">
+    <div class="faqs">
+      <div class="text-center" >
+
+          <div class="alert alert-dismissible fade show" [class.alert-success]="succesFb" [class.alert-danger]="errorFb" *ngIf="errorFb ||succesFb">
+            <i *ngIf="succesFb!=null"><strong>Succès!</strong> {{this.succesFb}}</i>
+            <i *ngIf="errorFb!=null"><strong>Erreur!</strong> {{this.errorFb}}</i>
+            <button type="button" class="close" data-dismiss="alert" >&times;</button>
+          </div>
+
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-xs-5">
+            <h2>Administration de mes inscriptions <b>aux cours</b></h2>
+          </div>
+
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr style="color: black;font-weight: bold;font-style: oblique">
+          <th>#</th>
+          <th>Titre</th>
+          <th>Categorie</th>
+          <th>Enseignant</th>
+          <th>Type d'enseignant</th>
+          <th>Date Inscription</th>
+          <th><i class="fa fa-users"></i> Groupes</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let inscription of myInscriptions ; let i=index" style="color: #595959">
+          <td>{{i+1}}</td>
+          <td><a [routerLink]="['/cours',inscription?.idCours]"><img [src]="inscription?.cours?.urlImage" class="avatar" alt="Avatar" style="width: 50px;height: 50px"> {{inscription?.cours?.titre}}</a></td>
+          <td>{{inscription?.cours?.categorie?.titre}}</td>
+          <td>{{inscription?.cours?.enseignant?.nom}} {{inscription?.cours?.enseignant?.prenom}}</td>
+          <td>{{inscription?.cours?.enseignant?.grade}}</td>
+          <td>{{inscription?.dateInscri}}</td>
+          <td>{{inscription?.cours?.nbrInscri}}</td>
+          <td><a (click)="desinscrire(inscription?.idInscription)"><button class="btn btn-danger"> se désinscrire</button></a></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <!--<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+        <ul class="pagination">
+          <li class="page-item disabled"><a href="#">Previous</a></li>
+          <li class="page-item"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item active"><a href="#" class="page-link">3</a></li>
+          <li class="page-item"><a href="#" class="page-link">4</a></li>
+          <li class="page-item"><a href="#" class="page-link">5</a></li>
+          <li class="page-item"><a href="#" class="page-link">Next</a></li>
+        </ul>-->
+      </div>
+    </div>
+  </div>
+</div>

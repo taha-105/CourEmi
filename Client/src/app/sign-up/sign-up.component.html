@@ -1,0 +1,107 @@
+
+<div class="language">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="text-center" st><h5 class="signup" style="margin-top: 5%">Inscrivez-vous à COURSEMI gratuitement!</h5></div>
+        <div ><hr style="margin-top: 5%"></div>
+      </div>
+    </div>
+
+  </div>
+  <div id="logreg-forms">
+    <form  class="form-signup" (ngSubmit)="onSignUp(f)" #f="ngForm">
+      <div class="social-login">
+        <button class="btn facebook-btn social-btn" type="button"><span> Sign up with Facebook</span> </button>
+      </div>
+      <div class="social-login">
+        <button class="btn google-btn social-btn" type="button"><span>Sign up with Google+</span> </button>
+      </div>
+
+      <p style="text-align:center">OR</p>
+      <div class="alert alert-dismissible fade show" [class.alert-success]="succesFb" [class.alert-danger]="errorFb" *ngIf="errorFb ||succesFb">
+        <i *ngIf="succesFb!=null"><strong>Succès!</strong> {{this.succesFb}}</i>
+        <i *ngIf="errorFb!=null"><strong>Erreur!</strong> {{this.errorFb}}</i>
+        <button type="button" class="close" data-dismiss="alert" >&times;</button>
+      </div>
+      <div class="row">
+        <div class="col-lg-5 col-md-5" >
+          <input type="text" placeholder="Prénom" name="prenom"  [ngModel]="prenomSens" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && prenom.invalid }" [ngClass]="{ 'is-valid': f.submitted && prenom.valid }"  required #prenom="ngModel"/>
+          <p class="invalid" *ngIf="prenom.invalid && f.submitted" >invalid prenom </p>
+        </div>
+        <div class="col-lg-2 col-md-2 change" >
+          <i class="fa fa-exchange" (click)="changeNameSens(f.value['nom'],f.value['prenom'])"></i>
+        </div>
+        <div class="col-lg-5 col-md-5" >
+          <input type="text" placeholder="Nom" [ngModel]="nomSens" name="nom" class="form-control" required #nom="ngModel"   [ngClass]="{ 'is-invalid': f.submitted && nom.invalid }" [ngClass]="{ 'is-valid': f.submitted && nom.valid }" />
+          <p class="invalid" *ngIf="nom.invalid && f.submitted">invalid nom </p>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 5px">
+        <div class="col-lg-12 col-md-12 input-group margin-bottom-sm"  >
+          <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+          <input type="email" id="user-email" class="form-control"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name="email" ngModel placeholder="Email" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [ngClass]="{ 'is-valid': f.submitted && email.valid }" required #email="ngModel" >
+
+        </div>
+        <p class="invalid" *ngIf="email.invalid && f.submitted">invalid email </p>
+      </div>
+      <div class="row form-rb" style="">
+        <div class="col-md-6">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="role" ngModel id="studentRB" value="Etudiant"  checked>
+            <label class="form-check-label" for="studentRB">
+              Etudiant
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="role" ngModel id="teacherRB" value="Enseignant" >
+            <label class="form-check-label" for="teacherRB">
+              Professeur
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row" *ngIf="f.value['role']==='Enseignant'">
+        <div class="col-lg-12 col-md-12" >
+          <select class="custom-select"  name="grade" ngModel [required]="f.value['role']==='Enseignant'" >
+            <option value="" selected disabled>Choisir Votre Grade</option>
+            <option value="Professeur">Professeur</option>
+            <option value="Doctorant">Doctorant</option>
+            <option value="Ingénieur">Ingénieur</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 input-group" >
+          <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+          <input type="password" id="user-pass" ngModel name="password" class="form-control" placeholder="Password" required [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [ngClass]="{ 'is-valid': f.submitted && password.valid }" #password="ngModel">
+
+
+        </div>
+        <p class="invalid" *ngIf="password.invalid && f.submitted">invalid password </p>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12" >
+            <div class="custom-file mt-3 mb-3">
+              <input type="file"  id="customImage"
+                     accept="image/*" class="form-control" placeholder="Choisr une Photo" required (change)="detectImage($event)">
+              <p class="text-success" style="color:green" *ngIf="imageUploaded"><i class="fa fa-check"></i> Image chargée avec succès</p>
+            </div>
+        </div>
+      </div>
+
+     <!-- <div class="row">
+        <div class="col-lg-12 col-md-12" >
+          <input type="password" id="user-repeatpass" ngModel class="form-control" placeholder="Confirmez le mot de passe" required autofocus="">
+        </div>
+      </div>-->
+      <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-user-plus"></i> S'inscrire</button>
+      <a routerLink="/sign-in" id="cancel_signup"> Retour</a>
+    </form>
+    <br>
+
+  </div>
+</div>

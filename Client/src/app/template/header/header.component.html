@@ -1,0 +1,103 @@
+
+<header class="header">
+
+
+  <!-- Header Content -->
+  <div class="header_container">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="header_content d-flex flex-row align-items-center justify-content-start">
+            <div class="logo_container mr-auto">
+              <a routerLink="home">
+                <div class="logo_text">COURSEMI</div>
+              </a>
+            </div>
+            <nav class="main_nav_contaner">
+              <ul class="main_nav">
+                <li><a routerLink="home">Home</a></li>
+                <li><a routerLink="cours">Cours</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Catégories
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div *ngFor="let cat of categories">
+                      <a class="dropdown-item" [routerLink]="['/cours/categories',cat?.idCategorie]">{{cat?.titre}}</a>
+                    </div>
+
+                  </div>
+                </li>
+              </ul>
+            </nav>
+            <div class="header_content_right ml-auto text-right">
+
+
+              <!-- Hamburger -->
+
+              <div class="avatar pull-left dropdown" *ngIf="memberIsAuthenticated" >
+                <a data-toggle="dropdown" href="#" ><img [src]="getPhotoProfile(memberConnected?.photoProfile)" style="width: 37px ;height: 37px" alt="" /></a><b class="caret"></b>
+                <div class="status green" ></div>
+                <ul class="dropdown-menu" role="menu" ngbDropdown >
+                  <a role="menuitem" tabindex="-3"   routerLink="profile" ><li role="presentation"><strong><i class="fa fa-user"></i></strong> Mon profile</li></a>
+
+                  <hr>
+                  <a role="menuitem" tabindex="-3"   [routerLink]="getAdminRoute(memberConnected?.role)"><li role="presentation"><strong><i class="fa fa-users"></i></strong> Administaration</li></a>
+                  <hr>
+                  <a role="menuitem" tabindex="-3"   style="cursor: pointer" (click)="onLogout()"><li role="presentation"><strong><i class="fa fa-sign-out" ></i></strong> Se déconnecter</li></a>
+                </ul>
+              </div>
+              <div class="avatar pull-left dropdown" *ngIf="!memberIsAuthenticated" >
+                <a routerLink="/sign-in"><button class="btn btn-primary"><i class="fa fa-sign-in" ></i> Se Connecter </button></a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<!-- Menu -->
+
+<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+  <div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+  <div class="search">
+    <form action="#" class="header_search_form menu_mm">
+      <input type="search" class="search_input menu_mm" placeholder="Search" required="required">
+      <button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
+        <i class="fa fa-search menu_mm" aria-hidden="true"></i>
+      </button>
+    </form>
+  </div>
+  <nav class="menu_nav">
+    <ul class="menu_mm">
+      <li class="menu_mm"><a href="index.html">Home</a></li>
+      <li class="menu_mm"><a href="courses.html">Cours</a></li>
+      <li class="menu_mm"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Catégories
+      </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Informatique</a>
+          <a class="dropdown-item" href="#">Eléctrique</a>
+
+        </div></li>
+    </ul>
+  </nav>
+  <div class="menu_extra">
+
+    <div class="menu_social">
+      <span class="menu_title">follow us</span>
+      <ul>
+        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+

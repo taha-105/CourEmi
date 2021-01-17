@@ -1,0 +1,72 @@
+<div class="home-header">
+  <div class="home_background" style="background-image: url(../../assets/images/cat.jpg);"></div>
+  <div class="home_content">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <h1 class="home_title">{{categorie?.titre}}</h1>
+          <p>{{categorie.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="language">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="language_title">Nos cours en ligne</div>
+      </div>
+      <div class="col-md-3">
+        <div class="example">
+          <input type="text"   placeholder="Rechercher des cours" [(ngModel)]="term" />
+          <button type="submit" disabled><i class="fa fa-search"></i></button>
+        </div>
+
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+
+<!-- Courses -->
+
+<div class="courses">
+  <div class="container">
+    <div class="row courses_row">
+      <!-- Course -->
+      <div class="col-lg-4 course_col" *ngFor="let cours of cours |filter:term|paginate:{itemsPerPage: itemsPerPage, currentPage: page }">
+        <div class="course">
+          <div class="course_image"><img [src]="cours?.urlImage" alt=""></div>
+          <div class="course_body">
+            <div class="course_title"><a [routerLink]="['/cours',cours?.idCours]">{{cours?.titre}}</a></div>
+            <div class="course_info">
+              <ul>
+                <li><a href="instructors.html">{{cours?.enseignant?.nom}}</a></li>
+                <li><a href="#">Français</a></li>
+              </ul>
+            </div>
+            <div class="course_text" style="height: 20px"  [innerHTML]="cours?.description.slice(0,50)+'...'|safeHtml">
+
+            </div>
+          </div>
+          <div class="course_footer d-flex flex-row align-items-center justify-content-start">
+            <div class="course_students"><i class="fa fa-user" aria-hidden="true"></i><span>{{cours?.nbrInscri}}</span></div>
+            <div class="course_rating ml-auto"><span style="font-size: 15px">{{cours?.categorie.titre}}</span></div>
+            <div class="course_mark course_free trans_200"><a href="#">free</a></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col" *ngIf="cours?.length>6">
+        <div class="load_more_button" *ngIf="itemsPerPage!=cours?.length"><a (click)="onAffichePlus()" >Afficher plus</a></div>
+        <div class="load_more_button" *ngIf="itemsPerPage===cours?.length"><a  (click)="onAfficheMoins()"  >Afficher moin</a></div>
+      </div>
+    </div>
+  </div>
+</div>

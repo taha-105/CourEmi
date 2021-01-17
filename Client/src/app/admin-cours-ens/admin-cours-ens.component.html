@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-xs-5">
+            <h2>Administration <b> des cours</b></h2>
+          </div>
+          <div class="col-xs-7">
+            <a href="#" class="btn btn-primary" (click)="onClickCreate()" data-toggle="modal" data-target="#exampleModal"><i class="material-icons">&#xE147;</i> <span>Ajouter Nouveau Cours</span></a>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr style="color: black;font-weight: bold;font-style: oblique">
+          <th>#</th>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Categorie</th>
+          <th>Date Debut</th>
+          <th>Date Fin</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let cours of coursesEns ; let i=index" style="color: #595959">
+          <td>{{i+1}}</td>
+          <td><a [routerLink]="['/admin-courses/course',cours?.idCours]"><img [src]="cours?.urlImage" class="avatar" alt="Avatar" style="width: 50px;height: 50px"> {{cours?.titre}}</a></td>
+          <td [innerHTML]="cours?.description.slice(0,50)+'...'|safeHtml"></td>
+          <td>{{cours?.categorie?.titre}}</td>
+          <td>{{cours?.dateDebut}}</td>
+          <td>{{cours?.dateFin}}</td>
+          <td>
+            <a  data-toggle="modal" data-target="#exampleModal" (click)="onEditCours(cours)"><img  class="action" title="modifier" style="width: 25px;height: 25px;cursor: pointer" src="../../assets/images/edit.png" alt="edit icon" /></a>
+            <img  class="action" (click)="onDeleteCours(cours?.idCours)" style="width: 30px;height: 30px;cursor: pointer;margin-left: 25%" width="20px" height="20px" title="supprimer" src="../../assets/images/delete.png" alt="delete icon"/>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <!--<div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+        <ul class="pagination">
+          <li class="page-item disabled"><a href="#">Previous</a></li>
+          <li class="page-item"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item active"><a href="#" class="page-link">3</a></li>
+          <li class="page-item"><a href="#" class="page-link">4</a></li>
+          <li class="page-item"><a href="#" class="page-link">5</a></li>
+          <li class="page-item"><a href="#" class="page-link">Next</a></li>
+        </ul>-->
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div id="chartContainer" style="height: 370px; width: 100%;margin-bottom: 10%"></div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="type==='create'">Ajouter un nouveau cours</h5>
+        <h5 class="modal-title" id="exampleModalLabel1" *ngIf="type==='edit'">Modifier le cours <strong>{{coursFetched?.titre}}</strong></h5>
+      </div>
+      <div class="modal-body">
+        <form  [formGroup]="courseForm" (ngSubmit)="onSaveCourse()">
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Titre</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="titre" required placeholder="Ecole Mohammadia d'Ingénieurs" *ngIf="type==='create'">
+            <input type="text" class="form-control" id="exampleFormControlInput2" formControlName="titre" [ngModel]="coursFetched?.titre" required placeholder="Ecole Mohammadia d'Ingénieurs" *ngIf="type==='edit'">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <quill-editor [styles]="{height:'120px',color:'black'}" formControlName="description" type="classic" placeholder="Détail du cours" id="description" required #editor *ngIf="type==='create'"></quill-editor>
+            <quill-editor [styles]="{height:'120px',color:'black'}" formControlName="description" type="classic" [ngModel]="coursFetched?.description"  placeholder="Détail du cours" id="description1" required #editor *ngIf="type==='edit'"></quill-editor>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Catégorie</label>
+            <select class="form-control" id="exampleFormControlSelect1" formControlName="categorie" required *ngIf="type==='create'">
+              <option value=""  [selected]="true" >Choisir une categorie *</option>
+              <option *ngFor="let cat of categories" [value]="cat?.idCategorie">{{cat?.titre}}</option>
+            </select>
+            <select class="form-control" id="exampleFormControlSelect2" formControlName="categorie" required *ngIf="type==='edit'" [ngModel]="coursFetched?.idCategorie">
+              <option value=""  [selected]="true" >Choisir une categorie *</option>
+              <option *ngFor="let cat of categories" [value]="cat?.idCategorie">{{cat?.titre}}</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6" *ngIf="type==='create'">
+              <label for="dateDebut">Date Début</label>
+              <input class="form-control" type="date" required value="2020-11-19" formControlName="dateDebut" id="dateDebut">
+            </div>
+            <div class="col-md-6 col-lg-6"*ngIf="type==='edit'">
+              <label for="dateDebut1">Date Début</label>
+              <input class="form-control" type="date" required [ngModel]="coursFetched?.dateDebut" formControlName="dateDebut" id="dateDebut1">
+            </div>
+            <div class="col-md-6 col-lg-6" *ngIf="type==='create'">
+            <label for="dateFin">Date Fin</label>
+            <input class="form-control" type="date" required value="2020-11-19" formControlName="dateFin" id="dateFin">
+          </div>
+            <div class="col-md-6 col-lg-6" *ngIf="type==='edit'">
+              <label for="dateFin1">Date Fin</label>
+              <input class="form-control" type="date" required [ngModel]="coursFetched?.dateFin"  formControlName="dateFin" id="dateFin1">
+            </div>
+          </div>
+          <div class="row" *ngIf="type==='create'">
+            <div class="col-lg-12 col-md-12" >
+              <div class="custom-file mt-3 mb-3">
+                <input type="file" class="custom-file-input" id="customImage"  (change)="detectImage($event)"
+                       class="form-control" accept="image/*" placeholder="Choisr une Photo" required >
+                <p class="text-success" *ngIf="imageUploaded" style="color:green">Image chargée avec succès</p>
+
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="container-fluid" style="margin-top:5% ;margin-left: 5%">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="alert alert-dismissible fade show" [class.alert-success]="succesFb" [class.alert-danger]="errorFb" *ngIf="errorFb ||succesFb">
+                  <i *ngIf="succesFb!=null"><strong>Succès!</strong> {{this.succesFb}}</i>
+                  <i *ngIf="errorFb!=null"><strong>Erreur!</strong> {{this.errorFb}}</i>
+                  <button type="button" class="close" data-dismiss="alert" >&times;</button>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <button type="submit" class="btn btn-primary" [disabled]="this.courseForm.invalid">{{getAction(type)}}</button>
+              </div>
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
